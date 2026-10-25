@@ -1,0 +1,139 @@
+/* Dark Purple & Blue Theme for Student Feedback Analyzer */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+:root {
+  /* Core colors */
+  --bg-color: #0f0c29;               /* deep dark purple */
+  --card-bg: #1e1a3c;                 /* slightly lighter card */
+  --text-color: #e0e0e0;             /* light gray */
+  --accent-start: #6366f1;            /* indigo */
+  --accent-end: #8b5cf6;              /* violet */
+  --accent-gradient: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+}
+
+/* Global reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navigation bar */
+nav {
+  width: 100%;
+  background: var(--accent-gradient);
+  padding: 0.8rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  margin: 0 0.8rem;
+  transition: opacity 0.2s;
+}
+nav a:hover { opacity: 0.85; }
+nav .logo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* Card container */
+.container {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  margin: 2rem auto;
+  width: 90%;
+  max-width: 800px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+h1, h2 {
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.4rem;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.12);
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+button {
+  margin-top: 1.5rem;
+  padding: 0.8rem 1.5rem;
+  background: var(--accent-gradient);
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: transform 0.2s, opacity 0.2s;
+}
+button:hover { transform: translateY(-2px); opacity: 0.9; }
+
+/* Links */
+a {
+  color: var(--accent-start);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+a:hover { opacity: 0.8; }
+
+.summary p {
+  margin: 0.4rem 0;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+th, td {
+  padding: 0.6rem;
+  text-align: left;
+}
+thead {
+  background: rgba(255,255,255,0.08);
+}
+tbody tr:nth-child(even) { background: rgba(255,255,255,0.04); }
+
+/* Suggestions */
+.suggestions {
+  margin-top: 1rem;
+  list-style: disc inside;
+  color: var(--text-color);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  nav { flex-direction: column; align-items: flex-start; }
+  .container { padding: 1.5rem; }
+  button { width: 100%; }
+}

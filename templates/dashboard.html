@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Feedback Dashboard</title>
+    <link rel='stylesheet' href='{{ url_for('static', filename='style.css') }}'>
+    <!-- Chart.js CDN -->
+    <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
+</head>
+<body>
+    <div class='container'>
+        <h1>Feedback Dashboard</h1>
+        <!-- Faculty filter -->
+        <form method='GET' style='margin-bottom:2rem;'>
+            <label for='faculty'>Filter by Faculty:</label>
+            <select id='faculty' name='faculty' onchange='this.form.submit()'>
+                <option value='' {% if not selected_faculty %}selected{% endif %}>All Faculties</option>
+                {% for fac in faculty_list %}
+                <option value='{{ fac }}' {% if fac == selected_faculty %}selected{% endif %}>{{ fac }}</option>
+                {% endfor %}
+            </select>
+        </form>
+        <!-- Summary cards -->
+        <div class='summary'>
+            <p><strong>Total Feedbacks:</strong> {{ total }}</p>
+            <p><strong>Average Rating:</strong> {{ avg_rating }}</p>
+            <p><strong>Positive:</strong> {{ pos_count }} ({{ pos_pct }}%)</p>
+            <p><strong>Neutral:</strong> {{ neu_count }} ({{ neu_pct }}%)</p>
+            <p><strong>Negative:</strong> {{ neg_count }} ({{ neg_pct }}%)</p>
+        </div>
+        <!-- Doughnut chart -->
+        <canvas id='sentimentChart' width='400' height='400'></canvas>
+        <script>
+            const ctx = document.getElementById('sentimentChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Positive', 'Neutral', 'Negative'],
+                    datasets: [{
+                        data: [{{ pos_count }}, {{ neu_count }}, {{ neg_count }}],
+                        backgroundColor: ['#4caf50', '#ffeb3b', '#f44336']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        </script>
+        <!-- Recent feedback table -->
+        <h2>Most Recent Feedbacks</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Name</th>
+                    <th>Subject</th>
+                    <th>Faculty</th>
+                    <th>Rating</th>
+                    <th>Comment</th>
+                    <th>Sentiment</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fb in recent_feedbacks %}
+                <tr>
+                    <td>{{ fb.timestamp.strftime('%Y-%m-%d %H:%M') if fb.timestamp else '' }}</td>
+                    <td>{{ fb.name }}</td>
+                    <td>{{ fb.subject }}</td>
+                    <td>{{ fb.faculty }}</td>
+                    <td>{{ fb.rating }}</td>
+                    <td>{{ fb.comment }}</td>
+                    <td>
+                        {% if fb.sentiment == 'Positive' %}
+                        <span style='color:#4caf50;font-weight:bold;'>Positive</span>
+                        {% elif fb.sentiment == 'Negative' %}
+                        <span style='color:#f44336;font-weight:bold;'>Negative</span>
+                        {% else %}
+                        <span style='color:#ffeb3b;font-weight:bold;'>Neutral</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+<!-- Suggestions card -->
+        <h2>Suggestions to Improve</h2>
+        {% if suggestions %}
+        <ul class='suggestions'>
+            {% for s in suggestions %}
+            <li>{{ s }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No suggestions available.</p>
+        {% endif %}
+        
+        <a href='{{ url_for('index') }}'>Submit New Feedback</a>

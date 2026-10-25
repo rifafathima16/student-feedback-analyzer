@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Thank You</title>
+    <link rel='stylesheet' href='{{ url_for('static', filename='style.css') }}'>
+</head>
+<body>
+    <div class='container'>
+        <h1>Thank You!</h1>
+        <p>Your feedback has been submitted and analyzed. Thank you for your input!</p>
+        <a href='{{ url_for('index') }}'>Submit Another Feedback</a> |
+        <a href='{{ url_for('dashboard') }}'>View Dashboard</a>
+    </div>
+</body>
+</html>
